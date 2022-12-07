@@ -11,10 +11,14 @@ This repository is dedicated to proxmox infrastructure in our `eu-west-1` datace
 
 ## Repository structure
 
-| Path        | Description                                                          |
-|-------------|----------------------------------------------------------------------|
-| `ct/`       | linux container related code.                                        |
-| `ct/pct.md` | instructions related to proxmox container shell. (pve's lxc wrapper) |
-| `vm/`       | vm related code.                                                     |
-|             |                                                                      |
+| Path   | Description                                 |
+|--------|---------------------------------------------|
+| `ct/`  | contains LXC related resources.             |
+| `vm/`  | contains Virtual Machine related resources. |
+| `net/` | contains networking related resources.      |
 
+# TODO
+
+- [ ] Create `CoreDNS` VM template
+- [ ] terraform module to launch a VM using cloud-init
+- [ ] terraform module to launch `CoreDNS` VM.
