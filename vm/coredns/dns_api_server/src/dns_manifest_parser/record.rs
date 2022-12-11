@@ -1,7 +1,6 @@
 use std::fmt;
 use std::fmt::{Display, Formatter};
 use regex::Regex;
-use rocket::form::validate::len;
 use rocket::serde::{Deserialize, Serialize};
 use rocket::serde::json::Json;
 
@@ -171,6 +170,10 @@ impl SOARecord {
             minimum: 0,
         }
     }
+
+    pub(crate) fn increment(&mut self) {
+        self.serial += 1
+    }
 }
 
 impl Display for SOARecord {
@@ -181,7 +184,7 @@ impl Display for SOARecord {
             SOA,
             self.mname,
             self.rname,
-            { self.serial + 1 },
+            self.serial,
             self.refresh,
             self.retry,
             self.expire,
