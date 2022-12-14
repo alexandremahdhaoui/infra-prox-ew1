@@ -1,4 +1,4 @@
-# Alpine CoreDNS
+# Alpine Golang
 
 ## Installing Golang
 
