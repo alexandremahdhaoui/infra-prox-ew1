@@ -31,11 +31,11 @@ Using `scp`, copy `Corefile`, `Rocket.toml`, `coredns` & `betterdns`.
 ssh-keygen -t ed25519
 ssh-copy-id nonroot@${REMOTE_IP}
 
-scp Corefile nonroot@${REMOTE_IP}:/home/nonroot/betterdns_bin
-scp dns_manifest nonroot@${REMOTE_IP}:/home/nonroot/betterdns_bin
-scp Rocket.toml nonroot@${REMOTE_IP}:/home/nonroot/betterdns_bin
-scp go/bin/coredns nonroot@${REMOTE_IP}:/home/nonroot/betterdns_bin
-scp betterdns/target/release/betterdns nonroot@${REMOTE_IP}:/home/nonroot/betterdns_bin
+scp "$HOME/betterdns/Corefile" nonroot@${REMOTE_IP}:/home/nonroot/betterdns_bin
+scp "$HOME/betterdns/dns_manifest" nonroot@${REMOTE_IP}:/home/nonroot/betterdns_bin
+scp "$HOME/betterdns/Rocket.toml" nonroot@${REMOTE_IP}:/home/nonroot/betterdns_bin
+scp "$HOME/go/bin/coredns" nonroot@${REMOTE_IP}:/home/nonroot/betterdns_bin
+scp "$HOME/betterdns/target/release/betterdns" nonroot@${REMOTE_IP}:/home/nonroot/betterdns_bin
 ```
 
 ## Add betterdns_bin to the PATH
@@ -48,6 +48,8 @@ echo "export PATH=$PATH:/home/nonroot/betterdns_bin" >> /etc/profile
 
 ```shell
 ssh nonroot@${REMOTE_IP}
+```
+```shell
 cd /home/nonroot/betterdns_bin/
 betterdns &
 exit

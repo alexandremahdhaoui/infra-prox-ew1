@@ -11,17 +11,18 @@
 
 # TODO
 
-- [ ] terraform module to launch a VM using cloud-init
-- [ ] terraform module to launch the `betterdns` VM.
+- [x] terraform module to launch a VM using cloud-init
+- [x] terragrunt configuration to launch the `betterdns` VM.
+  - Cannot be launch from local machine because the `10.128` private network is purposely unreachable from the internet.
 
 # Getting started
 
 This repository is dedicated to proxmox infrastructure in our `eu-west-1` datacenter (France).  
 
 `infra-prox-ew1` stands for:
-- `infra`: infrastructure
-- `prox`: proxmox
-- `ew1`: datacenter in `eu-west-1`
+- `infra`: infrastructure.
+- `prox`: proxmox.
+- `ew1`: datacenter in `eu-west-1`.
 
 ## Proxmox startup
 ```shell
@@ -46,6 +47,8 @@ Please install [proxmox-cli](https://github.com/alexandremahdhaoui/proxmox-cli) 
 [Proxmox-cli](https://github.com/alexandremahdhaoui/proxmox-cli) is a simple bash wrapper around the [Proxmox REST API](https://pve.proxmox.com/pve-docs/api-viewer/).It requires [curl](https://github.com/curl/curl) & [jq](https://github.com/stedolan/jq), so please make sure to have them installed.
 
 ## Curl the API
+
+If you prefer to curl the API directly, here are a few steps to get started:
 
 ### Setup
 
