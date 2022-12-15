@@ -17,7 +17,7 @@ variable "disk_size" {
   description = "Size of the disk, e.g. `8G`."
   type        = string
   validation {
-    condition = length(regexall("^[0-9]+G$", var.disk_size)) > 0
+    condition     = length(regexall("^[0-9]+G$", var.disk_size)) > 0
     error_message = "Disk size must comply to the regex: ^[0-9]+G$"
   }
 }
@@ -51,7 +51,7 @@ variable "memory" {
   description = "RAM size, e.g. `2048`."
   type        = number
   validation {
-    condition = var.memory > 16
+    condition     = var.memory > 16
     error_message = "`memory` should be superior to 16."
   }
 }

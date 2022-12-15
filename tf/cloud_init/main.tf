@@ -12,7 +12,7 @@ resource "proxmox_vm_qemu" "cloud-init" {
   desc        = var.desc
   name        = var.name
   target_node = var.target_node
-  vmid    = var.vmid
+  vmid        = var.vmid
 
   ipconfig0  = local.ip_config_0
   nameserver = var.nameserver
@@ -37,7 +37,7 @@ resource "proxmox_vm_qemu" "cloud-init" {
   }
 
   lifecycle {
-    ignore_changes  = [
+    ignore_changes = [
       network,
     ]
   }
