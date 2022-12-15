@@ -1,5 +1,9 @@
 # K3S Alpine
 
+## TODO
+- automated setup
+- improve the `k3s-template` with some aliases and automated script setup.
+
 ## Prerequisites
 
 ### Update your system
@@ -24,7 +28,7 @@ NETMASK:  $NETMASK
 GATEWAY:  $GATEWAY
 "
 read -p "Do you wish to continue [y/n]: " REPLY
-if [[ "$REPLY" != "y" ]]; then echo "Aborting..."; exit 0; done
+if [[ "$REPLY" != "y" ]]; then echo "Aborting..."; exit 0; fi
 # Update your hostname
 echo "$HOSTNAME" > /etc/hostname
 # Update the nameserver configuration, if not done already.
@@ -46,11 +50,38 @@ iface eth0 inet static
 EOF
 # Register to the nameserver
 curl -XPOST dns.alexandre.mahdhaoui.com:8000/a --data "{\"name\": \"$HOSTNAME\", \"class\": \"IN\", \"record_type\": \"A\", \"value\": \"${IP_ADDR}\"}"
-# Restart network
-rc-service networking restart
+# Reboot the system
+reboot
 ```
 
-Please note this script should be available at `/root/network-setup.sh`. Or maybe consider adding it to the `PATH`.
+Please note this script is available at `/usr/local/bin/network-setup`. 
+
+The non-interactive version of the script is available at `/usr/local/bin/network-setup-non-interactive`:
+```shell
+#!/bin/ash
+HOSTNAME=$1
+IP_ADDR=$2
+NETMASK=$3
+GATEWAY=$4
+echo "$HOSTNAME" > /etc/hostname
+cat <<EOF > /etc/resolv.conf
+nameserver 10.128.0.2
+nameserver 10.128.0.1
+nameserver 8.8.8.8
+EOF
+cat <<EOF > /etc/network/interfaces
+auto lo
+iface lo inet loopback
+auto eth0
+iface eth0 inet static
+        address ${IP_ADDR}
+        netmask ${NETMASK}
+        gateway ${GATEWAY}
+EOF
+curl -XPOST dns.alexandre.mahdhaoui.com:8000/a --data "{\"name\": \"$HOSTNAME\", \"class\": \"I
+reboot
+```
+
 
 ### Disable swap
 
@@ -97,13 +128,31 @@ rc-update add iptables
 ### Bootstrap the cluster
 
 ```shell
-read -sp "Please enter the K3S_TOKEN: " K3S_TOKEN
 curl -sfL https://get.k3s.io | sh -s - server --cluster-init
 ```
 
-### Join the cluster 
+### Join the cluster as a control plane node
+
+The value of the `K3S_TOKEN` can be found at `/var/lib/rancher/k3s/server/node-token`. 
 
 ```shell
+read -p "Please enter the K3S_URL, e.g. \"k0cp0.alexandre.mahdhaoui.com\": " K3S_URL
 read -sp "Please enter the K3S_TOKEN: " K3S_TOKEN
-curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://cp0.k0.alexandre.mahdhaoui.com:6443
+
+K3S_URL=https://${K3S_URL}:6443
+curl -sfL https://get.k3s.io | sh -s - server\
+  --server $K3S_URL\
+  --token $K3S_TOKEN
+```
+
+### Join the cluster as a worker node
+
+```shell
+read -p "Please enter the K3S_URL, e.g. \"k0cp0.alexandre.mahdhaoui.com\": " K3S_URL
+read -sp "Please enter the K3S_AGENT_TOKEN: " K3S_AGENT_TOKEN
+
+K3S_URL=https://${K3S_URL}:6443
+curl -sfL https://get.k3s.io | sh -s - agent\
+  --server $K3S_URL\
+  --token $K3S_AGENT_TOKEN
 ```

@@ -17,12 +17,10 @@
 
 # Getting started
 
-This repository is dedicated to proxmox infrastructure in our `eu-west-1` datacenter (France).  
+This repository is dedicated to proxmox infrastructure in our `eu-west-1` datacenter (France). 
+`infra`: infrastructure, `prox`: proxmox & `ew1`: datacenter in `eu-west-1`.
 
-`infra-prox-ew1` stands for:
-- `infra`: infrastructure.
-- `prox`: proxmox.
-- `ew1`: datacenter in `eu-west-1`.
+To get started with the repository I strongly suggest to checkout the `vm/` folder & checkout the different docs.
 
 ## Proxmox startup
 ```shell
