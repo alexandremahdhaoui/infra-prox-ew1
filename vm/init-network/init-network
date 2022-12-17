@@ -1,0 +1,52 @@
+#!/bin/ash
+
+help="Please specify:
+      1: HOSTNAME, e.g. \"alpine\"
+      2: IP_ADDR, your desired ip address, e.g. \"10.128.255.0\"
+      3: NETMASK, e.g. \"255.255.0.0\"
+      4: GATEWAY, e.g. \"10.128.0.1\"
+"
+
+if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]] || [[ -z "$4" ]] ; then echo "$help"; exit 1;fi
+
+HOSTNAME=$1
+IP_ADDR=$2
+NETMASK=$3
+GATEWAY=$4
+
+# Update your hostname
+echo "$HOSTNAME" > /etc/hostname
+# Update the nameserver configuration, if not done already.
+cat <<EOF > /etc/resolv.conf
+nameserver 10.128.0.2
+nameserver 10.128.0.1
+nameserver 8.8.8.8
+EOF
+# Update your network interface
+cat <<EOF > /etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+        address ${IP_ADDR}
+        netmask ${NETMASK}
+        gateway ${GATEWAY}
+EOF
+
+# add local.d to startup
+rc-update add local default
+# register to the DNS on startup
+cat <<EOF > /etc/local.d/dns_registration.start
+#!/bin/sh
+curl -XPOST dns.alexandre.mahdhaoui.com:8000/a --data "{\"name\": \"$HOSTNAME\", \"class\": \"IN\", \"record_type\": \"A\", \"value\": \"${IP_ADDR}\"}"
+EOF
+chmod 755 /etc/local.d/dns_registration.start
+# unregister on shutdown
+cat <<EOF > /etc/local.d/dns_registration.stop
+#!/bin/sh
+curl -XDELETE dns.alexandre.mahdhaoui.com:8000/a/$HOSTNAME
+EOF
+chmod 755 /etc/local.d/dns_registration.stop
+# Reboot the system
+reboot

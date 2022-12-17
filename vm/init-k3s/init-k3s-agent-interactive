@@ -1,0 +1,11 @@
+#!/bin/ash
+
+echo "setting up k3s agent..."
+
+read -p "Please enter URL of the K3S server: " K3S_URL
+K3S_URL=https://${K3S_URL}:6443
+
+echo 'The value of the "K3S_TOKEN" can be found at "/var/lib/rancher/k3s/server/node-token"'
+read -sp "Please select the \"K3S_TOKEN\": " K3S_TOKEN
+
+init-k3s-agent "$K3S_URL" "$K3S_TOKEN"
