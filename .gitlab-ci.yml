@@ -1,0 +1,11 @@
+stages:
+  - test
+
+hello_world:
+  stage: test
+  image: alpine:latest
+  script:
+    - echo "hello world"
+    - hostname -f
+  tags:
+    - infra-prox-1-ew1-k0
