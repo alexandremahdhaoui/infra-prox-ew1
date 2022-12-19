@@ -12,7 +12,6 @@ terraform {
       "destroy",
     ]
 
-    # With the get_terragrunt_dir() function, you can use relative paths!
     required_var_files = []
   }
 }
@@ -29,7 +28,7 @@ inputs = {
   disk_size                     = "8G"
   disk_type                     = "scsi"
   disk_storage                  = "VM1"
-  eth0_ip_addr                  = "10.128.0.2"
+  eth0_ip_addr                  = "10.128.10.2"
   eth0_cidr_block               = "16"
   eth0_gateway                  = "10.128.0.1"
   memory                        = "1024"
@@ -50,5 +49,5 @@ inputs = {
   ssh_private_key               = ""
   sshkeys                       = ""
   target_node                   = "node0"
-  vmid                          = "128002"
+  vmid                          = "128010002"
 }
