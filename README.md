@@ -15,6 +15,11 @@
 - [x] terragrunt configuration to launch the `betterdns` VM.
   - Cannot be launch from local machine because the `10.128` private network is purposely unreachable from the internet.
 
+In the future:
+- [ ] Think about deploying kafka in "shared" cluster.
+  - But to be honest, it feels like an anti-pattern to have subdomains inter-coupled with events of other subdomains.
+  - Otherwise we have to write bridges between schemes
+
 # Getting started
 
 This repository is dedicated to proxmox infrastructure in our `eu-west-1` datacenter (France). 

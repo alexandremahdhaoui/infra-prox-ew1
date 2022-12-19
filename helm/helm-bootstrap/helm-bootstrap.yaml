@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helm-bootstrap
+  labels:
+    app: helm-bootstrap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helm-bootstrap
+  template:
+    metadata:
+      labels:
+        app: helm-bootstrap
+    spec:
+      containers:
+        - name: helm-bootstrap
+          image: alpine/helm:3.10.2
+          command: ["/bin/sh"]
+          args: ["-c", "while true; do sleep 120;done"]
+      serviceAccountName: helm-bootstrap
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: helm-bootstrap
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: helm-bootstrap
+rules:
+  - apiGroups: [ "*" ]
+    resources: [ "*" ]
+    verbs: [ "*" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+# This cluster role binding allows anyone in the "manager" group to read secrets in any namespace.
+kind: ClusterRoleBinding
+metadata:
+  name: helm-bootstrap
+subjects:
+  - kind: ServiceAccount
+    name: helm-bootstrap
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: helm-bootstrap
+  apiGroup: rbac.authorization.k8s.io
