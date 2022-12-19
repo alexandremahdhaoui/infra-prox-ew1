@@ -1,0 +1,17 @@
+#!/bin/ash
+# Enter your configuration
+read -p "Enter your hostname, e.g. \"alpine\": " HOSTNAME
+read -p "Enter your desired ip address, e.g. \"10.128.255.0\": " IP_ADDR
+read -p "Please specify the netmask, e.g. \"255.255.0.0\": " NETMASK
+read -p "Please enter the address of the gateway, e.g. \"10.128.0.1\": " GATEWAY
+
+echo "Your desired configuration is:
+HOSTNAME: $HOSTNAME
+IP_ADDR:  $IP_ADDR
+NETMASK:  $NETMASK
+GATEWAY:  $GATEWAY
+"
+read -p "Do you wish to continue [y/n]: " REPLY
+if [[ "$REPLY" != "y" ]]; then echo "Aborting..."; exit 0; fi
+
+init-network "$HOSTNAME" "$IP_ADDR" "$NETMASK" "$GATEWAY"
