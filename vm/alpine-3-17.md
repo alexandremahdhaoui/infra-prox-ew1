@@ -18,9 +18,10 @@ vi /etc/apk/repositories
 ## 3. Update & Upgrade the system 
 
 ```shell
-apk update apk upgrade --available
+apk update && apk upgrade --available
 sync
 apk add curl qemu-guest-agent
+rc-update add qemu-guest-agent default
 reboot
 ```
 
