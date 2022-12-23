@@ -48,5 +48,6 @@ cat <<EOF > /etc/local.d/dns_registration.stop
 curl -XDELETE dns.alexandre.mahdhaoui.com:8000/a/$HOSTNAME
 EOF
 chmod 755 /etc/local.d/dns_registration.stop
-# Reboot the system
-reboot
+#
+echo Reboot the system,
+echo or run: \"rc-service networking restart\"

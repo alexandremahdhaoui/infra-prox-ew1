@@ -16,10 +16,16 @@ vi /etc/apk/repositories
 ```
 Uncomment the community repository
 
+#### Install qemu-guest-agent
+
+```shell
+apk add qemu-guest-agent
+```
+
 #### Install & setup cloud-init
 
 ```shell
-apk update && apk upgrade && apk add cloud-init
+apk update && apk upgrade apk add cloud-init
 setup-cloud-init
 reboot
 ```

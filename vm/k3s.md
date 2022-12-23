@@ -26,24 +26,6 @@ Run `swapoff -a`, or permanently disable swap:
 
 ### Setup cgroups
 
-#### Manually
-```shell
-apk add --no-cache curl
-echo "cgroup /sys/fs/cgroup cgroup defaults 0 0" >> /etc/fstab
-cat > /etc/cgconfig.conf <<EOF
-mount {
-    cpuacct = /cgroup/cpuacct;
-    memory  = /cgroup/memory;
-    devices = /cgroup/devices;
-    freezer = /cgroup/freezer;
-    net_cls = /cgroup/net_cls;
-    blkio   = /cgroup/blkio;
-    cpuset  = /cgroup/cpuset;
-    cpu     = /cgroup/cpu;
-}
-EOF
-```
-
 #### Using cgroupfs-mount
 
 Run this script:
@@ -75,7 +57,6 @@ rc-update add iptables
 
 ```shell
 cat <<EOF >> /etc/profile
-set -o vi
 alias ll=ls\ -laF
 alias k=kubectl
 alias kg=k\ get
