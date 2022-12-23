@@ -26,8 +26,8 @@ locals {
   worker_ip_config_cidr_sub_block = var.worker_ip_config_cidr_sub_block
   worker_ip_config_gateway        = var.worker_ip_config_gateway
 
-  worker_ip_cidr                  = format("%s/%s", local.worker_ip_config_addr, local.worker_ip_config_cidr_block)
-  worker_ip_cidr_sub_block        = format("%s/%s", local.worker_ip_config_addr, local.worker_ip_config_cidr_sub_block)
+  worker_ip_cidr           = format("%s/%s", local.worker_ip_config_addr, local.worker_ip_config_cidr_block)
+  worker_ip_cidr_sub_block = format("%s/%s", local.worker_ip_config_addr, local.worker_ip_config_cidr_sub_block)
 
   worker_remote_exec_commands = var.worker_remote_exec_commands
 
@@ -50,7 +50,7 @@ resource "proxmox_vm_qemu" "worker_node" {
   target_node = local.worker_target_node
   vmid        = tonumber(replace(cidrhost(local.worker_ip_cidr_sub_block, count.index), ".", ""))
 
-  ipconfig0  = format(
+  ipconfig0 = format(
     local.format_worker_ip_config,
     cidrhost(local.worker_ip_cidr_sub_block, count.index),
     local.worker_ip_config_cidr_block,
