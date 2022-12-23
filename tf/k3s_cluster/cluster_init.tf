@@ -7,7 +7,7 @@ resource "proxmox_vm_qemu" "cluster_init_node" {
   target_node = local.control_plane_target_node
   vmid        = tonumber(replace(cidrhost(local.control_plane_ip_cidr_sub_block, count.index), ".", ""))
 
-  ipconfig0  = format(
+  ipconfig0 = format(
     local.format_control_plane_ip_config,
     cidrhost(local.control_plane_ip_cidr_sub_block, count.index),
     local.control_plane_ip_config_cidr_block,
